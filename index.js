@@ -37,6 +37,12 @@ app.get('/db', function (request, response) {
 app.post('/pandora-event', function(request, response) {
 	console.log(request.body.username);
 	console.log(request.body.event);
+	console.log(request.body.shuffleEnabled);
+	console.log(request.body.date);
+	console.log(request.body.stationId);
+	console.log(request.body.songName);
+	console.log(request.body.songHref);
+	response.send(cool()); // test view console.
 });
 
 app.get('/db_add', function(request, response) {
