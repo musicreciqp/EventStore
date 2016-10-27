@@ -43,3 +43,20 @@ app.get('/db', function (request, response) {
     });
   });
 });
+
+app.get('/db_add', function(request, response) {
+	var num = request.param('num');
+	var msg = request.param('msg');
+	console.log(num, msg);
+	if (num && msg) {
+		pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+			client.query("INSERT into test_table values(" + num + ", '" + msg + "')", function(err, result) {
+				done();
+				if (err)
+	       { console.error(err); response.send("Error " + err); }
+	     else 
+	     		{response.send(cool());}
+			});
+		});
+	}
+});
