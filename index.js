@@ -42,6 +42,7 @@ app.get('/db', function (request, response) {
 });
 
 app.post('/pandora-event', function(request, response) {
+	console.log(request);
 	console.log(request.body.username);
 	console.log(request.body.event);
 	console.log(request.body.shuffleEnabled);
