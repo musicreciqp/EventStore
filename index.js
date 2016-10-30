@@ -29,19 +29,6 @@ app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
 });
 
-
-app.get('/db', function (request, response) {
-  pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-    client.query('SELECT * FROM test_table', function(err, result) {
-      done();
-      if (err)
-       { console.error(err); response.send("Error " + err); }
-      else
-       { response.render('pages/db', {results: result.rows} ); }
-    });
-  });
-});
-
 app.post('/pandora-event', function(request, response) {
 	var sql = "INSERT into pandora_events (event, username, stationId, stationName, songName, songHref, shuffleEnabled, date) values ('" +request.body.event + "', '" + request.body.username + "', '" + request.body.stationId + "', '" +
 			request.body.stationName + "', '" + request.body.songName + "', '" + request.body.songHref + "', " + request.body.shuffleEnabled + ", '" + request.body.date + "')";
@@ -65,21 +52,4 @@ app.get('/pandora_events', function(request, res) {
 		       {res.render('pages/db', {results: result.rows} ); } 
 		 });
   });
-});
-
-app.get('/db_add', function(request, response) {
-	var num = request.param('num');
-	var msg = request.param('msg');
-	console.log(num, msg);
-	if (num && msg) {
-		pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-			client.query("INSERT into test_table values(" + num + ", '" + msg + "')", function(err, result) {
-				done();
-				if (err)
-	       { console.error(err); response.send("Error " + err); }
-	     else 
-	     		{response.send(cool());}
-			});
-		});
-	}
 });
