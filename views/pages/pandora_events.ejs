@@ -37,7 +37,7 @@
     			<td><%= r.stationname %></td>
     			<td><a target="_blank" href="<%= r.songhref %>"><%= r.songname %></a></td>
     			<td><%= r.shuffleenabled %></td>
-    			<td><%= new Date(r.date).toString() %></td>
+    			<td><%= new Date(r.date).toLocaleDateString() %> <%= new Date(r.date).toLocaleTimeString() %></td>
     		</tr>
     <% }); %>
   </tbody>
