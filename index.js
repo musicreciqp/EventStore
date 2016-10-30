@@ -68,9 +68,9 @@ app.get('/pandora_events', function(request, res) {
     client.query('SELECT * FROM pandora_events', function(err, result) {
       done();
       if (err)
-       { console.error(err); response.send("Error " + err); }
+       { console.error(err); res.send("Error " + err); }
       else
-       { response.render('pages/db', {results: result.rows} ); }
+		       { res.render('pages/db', {results: result.rows} ); }
     });
   });
 });
