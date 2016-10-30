@@ -3,6 +3,8 @@
 <head>
   <% include ../partials/header.ejs %>
   <title>Pandora Events</title>
+  <script type="text/javascript" src="/js/jquery.tablesorter.min.js"></script>
+  <script type="text/javascript">$(document).ready(function() { $("#myTable").tablesorter(); });</script>
 </head>
 
 <body>
@@ -12,7 +14,7 @@
 <div class="container">
 <h2>Pandora Events</h2>
 
-<table class = "table" style="width: 100%;">
+<table id="myTable" class = "table" style="width: 100%;">
 	<thead>
 		<tr>
 			<th>ID</th>
