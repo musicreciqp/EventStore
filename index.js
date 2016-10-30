@@ -45,7 +45,6 @@ app.get('/db', function (request, response) {
 });
 
 app.post('/pandora-event', function(request, response) {
-	console.log(request);
 	console.log(request.body.username);
 	console.log(request.body.event);
 	console.log(request.body.shuffleEnabled);
@@ -53,7 +52,27 @@ app.post('/pandora-event', function(request, response) {
 	console.log(request.body.stationId);
 	console.log(request.body.songName);
 	console.log(request.body.songHref);
-	response.send(cool()); // test view console.
+	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+		client.query("INSERT into pandora_events values (" +request.body.event, ", " + request.body.username + ", " + request.body.stationId + ", " +
+			request.body.stationName + ", " + request.body.songName + ", " + request.body.songHref + ", " + request.body.shuffleEnabled + ", " + request.body.date + ")", 
+			function (err, result) {
+				done();
+				if (err) {console.log(err); response.send("Error " + err);}
+				else {response.send("Song Added " + cool());}
+			});
+	});
+});
+
+app.get('/pandora_events', function(request, res) {
+	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+    client.query('SELECT * FROM pandora_events', function(err, result) {
+      done();
+      if (err)
+       { console.error(err); response.send("Error " + err); }
+      else
+       { response.render('pages/db', {results: result.rows} ); }
+    });
+  });
 });
 
 app.get('/db_add', function(request, response) {
