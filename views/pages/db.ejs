@@ -11,7 +11,7 @@
 <div class="container">
 <h2>Database Results</h2>
 
-<table>
+<table style="width: 100%;">
 	<thead>
 		<tr>
 			<th>ID</th>
@@ -32,7 +32,7 @@
     			<td><%= r.username %></td>
     			<td><%= r.stationid %></td>
     			<td><%= r.stationname %></td>
-    			<td><a href="<%= r.songhref %>"><%= r.songname %></a></td>
+    			<td><a target="_blank" href="<%= r.songhref %>"><%= r.songname %></a></td>
     			<td><%= r.shuffleenabled %></td>
     			<td><%= r.date %></td>
     		</tr>
