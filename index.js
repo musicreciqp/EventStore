@@ -53,7 +53,7 @@ app.post('/pandora-event', function(request, response) {
 	console.log(request.body.songName);
 	console.log(request.body.songHref);*/
 	var sql = "INSERT into pandora_events values ('" +request.body.event + "', '" + request.body.username + "', " + request.body.stationId + ", '" +
-			request.body.stationName + "', '" + request.body.songName + "', '" + request.body.songHref + "', " + request.body.shuffleEnabled + ", " + request.body.date + ")";
+			request.body.stationName + "', '" + request.body.songName + "', '" + request.body.songHref + "', " + request.body.shuffleEnabled + ", '" + request.body.date + "')";
 	console.log("SQL: " + sql);
 	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
 		client.query(sql, function (err, result) {
