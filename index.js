@@ -45,17 +45,18 @@ app.get('/db', function (request, response) {
 });
 
 app.post('/pandora-event', function(request, response) {
-	console.log(request.body.username);
+	/*console.log(request.body.username);
 	console.log(request.body.event);
 	console.log(request.body.shuffleEnabled);
 	console.log(request.body.date);
 	console.log(request.body.stationId);
 	console.log(request.body.songName);
-	console.log(request.body.songHref);
+	console.log(request.body.songHref);*/
+	var sql = "INSERT into pandora_events values (" +request.body.event + ", " + request.body.username + ", " + request.body.stationId + ", " +
+			request.body.stationName + ", " + request.body.songName + ", " + request.body.songHref + ", " + request.body.shuffleEnabled + ", " + request.body.date + ")";
+	console.log("SQL: " + sql);
 	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-		client.query("INSERT into pandora_events values (" +request.body.event + ", " + request.body.username + ", " + request.body.stationId + ", " +
-			request.body.stationName + ", " + request.body.songName + ", " + request.body.songHref + ", " + request.body.shuffleEnabled + ", " + request.body.date + ")", 
-			function (err, result) {
+		client.query(sql, function (err, result) {
 				done();
 				if (err) {console.log(err); response.send("Error " + err);}
 				else {response.send("Song Added " + cool());}
