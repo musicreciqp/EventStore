@@ -8,8 +8,6 @@ app.set('port', (process.env.PORT || 5000));
 
 app.all('/*', function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
-  //res.header("Access-Control-Allow-Headers", "X-Requested-With");
-  //res.header("Access-Control-Allow-Credentials", "true");
   res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
 	res.header("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
   next();
@@ -45,13 +43,6 @@ app.get('/db', function (request, response) {
 });
 
 app.post('/pandora-event', function(request, response) {
-	/*console.log(request.body.username);
-	console.log(request.body.event);
-	console.log(request.body.shuffleEnabled);
-	console.log(request.body.date);
-	console.log(request.body.stationId);
-	console.log(request.body.songName);
-	console.log(request.body.songHref);*/
 	var sql = "INSERT into pandora_events (event, username, stationId, stationName, songName, songHref, shuffleEnabled, date) values ('" +request.body.event + "', '" + request.body.username + "', '" + request.body.stationId + "', '" +
 			request.body.stationName + "', '" + request.body.songName + "', '" + request.body.songHref + "', " + request.body.shuffleEnabled + ", '" + request.body.date + "')";
 	console.log("SQL: " + sql);
@@ -71,10 +62,8 @@ app.get('/pandora_events', function(request, res) {
       if (err)
        { console.error(err); res.send("Error " + err); }
       else
-		       { 
-		       //	console.log(result.rows);
-		       	res.render('pages/db', {results: result.rows} ); }
-    });
+		       {res.render('pages/db', {results: result.rows} ); } 
+		 });
   });
 });
 
