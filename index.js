@@ -72,7 +72,7 @@ app.get('/pandora_events', function(request, res) {
        { console.error(err); res.send("Error " + err); }
       else
 		       { 
-		       	console.log(result.rows);
+		       //	console.log(result.rows);
 		       	res.render('pages/db', {results: result.rows} ); }
     });
   });
