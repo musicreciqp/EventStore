@@ -1,0 +1,2 @@
+To run an arbitrary script:
+cat sql/script.sql | heroku pg:psql
