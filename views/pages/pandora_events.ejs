@@ -7,7 +7,7 @@
   <script type="text/javascript">$(document).ready(function() { $("#myTable").tablesorter(); });</script>
   <script type="text/javascript">
     function openDetails(href) {
-
+      alert(href);
     }
   </script>
 </head>
@@ -30,6 +30,7 @@
 			<th>Song</th>
 			<th>Shuffle Enabled?</th>
 			<th>Date</th>
+      <th>Track Features</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -43,6 +44,7 @@
     			<td><a target="_blank" href="<%= r.songhref %>"><%= r.songname %></a></td>
     			<td><%= r.shuffleenabled %></td>
     			<td><%= r.date.toLocaleDateString() %> <%= r.date.toLocaleTimeString() %></td>
+          <td><button type="button" class="btn btn-default" onclick="openDetails(<%= r.songhref %>)">Track Features</button></td>
     		</tr>
     <% }); %>
   </tbody>
