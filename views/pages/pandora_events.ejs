@@ -5,6 +5,11 @@
   <title>Pandora Events</title>
   <script type="text/javascript" src="/js/jquery.tablesorter.min.js"></script>
   <script type="text/javascript">$(document).ready(function() { $("#myTable").tablesorter(); });</script>
+  <script type="text/javascript">
+    function openDetails(href) {
+
+    }
+  </script>
 </head>
 
 <body>
@@ -37,7 +42,7 @@
     			<td><%= r.stationname %></td>
     			<td><a target="_blank" href="<%= r.songhref %>"><%= r.songname %></a></td>
     			<td><%= r.shuffleenabled %></td>
-    			<td><%= new Date(r.date).toLocaleDateString() %> <%= new Date(r.date).toLocaleTimeString() %></td>
+    			<td><%= r.date.toLocaleDateString() %> <%= r.date.toLocaleTimeString() %></td>
     		</tr>
     <% }); %>
   </tbody>

@@ -37,7 +37,14 @@ app.get('/pandora_events', function(request, res) {
     client.query('SELECT * FROM pandora_events', function(err, result) {
       done();
       if (err) { console.error(err); res.send("Error " + err); }
-      else {res.render('pages/pandora_events', {results: result.rows} ); } 
+      else {
+      	var adjustedRows = result.rows.map(function(row) {
+      		row.date = new Date(row.date);
+      		row.date.setHours(row.date.getHours() - 4);
+      		return row;
+      	});
+      	res.render('pages/pandora_events', {results: adjustedRows} );
+      } 
 		 });
   });
 });
