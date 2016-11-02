@@ -35,7 +35,10 @@
     			<td><%= r.username %></td>
     			<td><%= r.stationid %></td>
     			<td><%= r.stationname %></td>
-    			<td><%= if (r.songname) { %><a target="_blank" href="<%= r.songhref %>"><%= r.songname %></a><%= } else{ %><em>--</em><%= } %>
+    			<td>
+            <%= if(r.songname) { %>
+          <a target="_blank" href="<%= r.songhref %>"><%= r.songname %></a>
+          <%= } else { %><em>--</em><%= } %>
           </td>
     			<td><%= r.shuffleenabled %></td>
     			<td><%= new Date(r.date).toLocaleDateString() %> <%= new Date(r.date).toLocaleTimeString() %></td>
