@@ -44,7 +44,7 @@
     			<td><a target="_blank" href="<%= r.songhref %>"><%= r.songname %></a></td>
     			<td><%= r.shuffleenabled %></td>
     			<td><%= r.date.toLocaleDateString() %> <%= r.date.toLocaleTimeString() %></td>
-          <td><button type="button" class="btn btn-default" onclick="openDetails(<%= r.songhref %>)">Track Features</button></td>
+          <td><button type="button" class="btn btn-default" onclick="openDetails('<%= r.songhref %>')">Track Features</button></td>
     		</tr>
     <% }); %>
   </tbody>
