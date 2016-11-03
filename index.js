@@ -1,6 +1,8 @@
 var express = require('express');
-var bodyParser = require('body-parser')
+var bodyParser = require('body-parser');
+var cheerio = require('cheerio');
 var pg = require('pg'); 
+var request = require('request');
 var app = express();
 app.use(bodyParser.json());       // to support JSON-encoded bodies
 app.set('port', (process.env.PORT || 5000));
@@ -47,5 +49,19 @@ app.get('/pandora_events', function(request, res) {
       } 
 		 });
   });
+});
+
+app.get('/pandora_scrape', function(req, res) {
+	var href = req.param('href');
+	var errorMsg = function() {res.send("No Song For Event");};
+	if (!href) errorMsg();
+	request(href, function (error, response, body) {
+	  if (!error && response.statusCode == 200) {
+	  	var $ = cheerio.load(body);
+	  	var resp = $('.song_features').html() + '<br/>' + $('.similar_songs').html();
+	    res.send(resp);
+	  }
+	  else errorMsg();
+	});
 });
 
