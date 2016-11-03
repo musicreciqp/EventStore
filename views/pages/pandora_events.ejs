@@ -30,11 +30,15 @@
                 }
               }
               if (child.tagName.toLowerCase() === "p") child.remove();
-              if (child.className === "show_more") child.remove();
-              if (child.tagName.toLowerCase() === "a") {
-                child.href = "pandora.com" + child.href;
-              }
+              if (child.className === "show_more") { child.remove(); break;}
             }
+            var fixPandoraHref = function(a) {
+              a.href = a.href.replace('warm-lake-98113.herokuapp', 'pandora');
+              a.taret = "_blank";
+              return a;
+            }
+            $('.track_link').each(function(i, a) {fixPandoraHref(a);});
+            $('.artist_link').each(function(i, a) {fixPandoraHref(a);});
           },
           content: resp
         }); 
