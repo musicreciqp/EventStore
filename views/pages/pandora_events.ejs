@@ -15,7 +15,7 @@
   <script type="text/javascript">
     $(document).ready(function() { $("#myTable").tablesorter(); });
     function openDetails(href) {
-      $.get('/pandora_scrape', {href: href}, function(resp) {console.log(resp);});
+      $.get('/pandora_scrape', {href: href}, function(resp) { $.fancybox({ content: resp}); });
     }
   </script>
 </head>
