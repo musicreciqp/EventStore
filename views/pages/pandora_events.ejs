@@ -29,7 +29,11 @@
                   child.style.display = "block";            
                 }
               }
-              if (child.className === "show_more") {child.remove(); break;}
+              if (child.tagName.toLowerCase() === "p") child.remove();
+              if (child.className === "show_more") child.remove();
+              if (child.tagName.toLowerCase() === "a") {
+                child.href = "pandora.com" + child.href;
+              }
             }
           },
           content: resp
