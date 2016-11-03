@@ -15,7 +15,26 @@
   <script type="text/javascript">
     $(document).ready(function() { $("#myTable").tablesorter(); });
     function openDetails(href) {
-      $.get('/pandora_scrape', {href: href}, function(resp) { $.fancybox({ content: resp}); });
+      $.get('/pandora_scrape', {href: href}, function(resp) { 
+        $.fancybox({ 
+          afterShow: function() {
+            var fb = $('.fancybox-inner');
+            var children = fb.children();
+            var beforeFirstDiv = true;
+            for (var i = 0; i < children.length ;i++) {
+              var child = children[i];
+              if (beforeFirstDiv) {
+                if (child.tagName.toLowerCase() === "div") {
+                  beforeFirstDiv = false;
+                  child.style.display = "block";            
+                }
+              }
+              if (child.className === "show_more") {child.remove(); break;}
+            }
+          },
+          content: resp
+        }); 
+      });
     }
   </script>
 </head>
