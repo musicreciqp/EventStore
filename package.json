@@ -1,5 +1,5 @@
 {
-  "name": "IQP Event Store",
+  "name": "IQPEventStore",
   "version": "0.2.5",
   "description": "Express 4 Backend for Storing Events in Study",
   "engines": {
