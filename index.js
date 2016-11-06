@@ -66,3 +66,13 @@ app.get('/pandora_scrape', function(req, res) {
 });
 
 
+app.get('/users', function(req, res) {
+	var users = ["testacc1"];
+	res.render('pages/users', {users: users});
+});
+
+app.get('/users/:id', function(req, res) {
+	res.render('pages/user', {user: req.params.id});
+});
+
+
