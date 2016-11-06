@@ -5,7 +5,7 @@ var pg = require('pg');
 var request = require('request');
 var app = express();
 app.use(bodyParser.json());       // to support JSON-encoded bodies
-app.set('port', (process.env.PORT || 5000));
+app.set('port', (process.env.PORT || 5858));
 
 app.all('/*', function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -73,6 +73,37 @@ app.get('/users', function(req, res) {
 
 app.get('/users/:id', function(req, res) {
 	res.render('pages/user', {user: req.params.id});
+});
+
+app.get('/users/:id/scrape', function(req, res) {
+	var si = 0;
+	var payload = "";
+	var endMsg = 'No more posts available';
+	var makeRequest = function() {
+		var href = 'https://www.pandora.com/content/newsfeed?si=' + si  + '&webname=' + req.params.id + '&followingCount=0&only_own=true';
+		console.log("href", href);
+		request(href, function(error, response, body) {
+			if (!error && response.statusCode === 200) {
+				console.log("here");
+				// console.log(body);
+				var $ = cheerio.load(body);
+				var section = $(".section");
+				console.log(section.length);
+				$('.section').each(function(index, element) {
+					payload += $(this).html(); + '<br/>';
+				});
+				if (body.indexOf(endMsg) !== -1) {
+					si += 20;
+					makeRequest();
+				}
+				else {
+					console.log("final payload:\t" + payload);
+					res.send(payload);
+				}
+			}
+		});
+	};
+	makeRequest();
 });
 
 
