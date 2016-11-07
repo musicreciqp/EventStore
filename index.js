@@ -76,7 +76,7 @@ app.post('/users', function(req, res) {
 		res.send("Need Name and Tunein Email");
 		return;
 	}
-	var sql = "insert into users(name, tuneinEmail) values ('" + postgresQuoteEscape(name) + "', '" + postgresQuoteEscape(tuneinEmail) + "')";
+	var sql = "insert into users (name, tuneinEmail) values ('" + postgresQuoteEscape(name) + "', '" + postgresQuoteEscape(tuneinEmail) + "')";
 	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
 		client.query(sql, function(err, result) {
 			done();
@@ -118,48 +118,7 @@ app.get('/users/:id', function(req, res) {
 				return;
 			}
 			res.render('pages/user', {user : result.rows[0]});
-		})
+		});
 	});
 });
-
-app.get('/users_nope', function(req, res) {
-	var users = ["testacc1"];
-	res.render('pages/users', {users: users});
-});
-
-app.get('/users_nope/:id', function(req, res) {
-	res.render('pages/user', {user: req.params.id});
-});
-
-app.get('/users_nope/:id/scrape', function(req, res) {
-	var si = 0;
-	var payload = "";
-	var endMsg = 'No more posts available';
-	var makeRequest = function() {
-		var href = 'https://www.pandora.com/content/newsfeed?si=' + si  + '&webname=' + req.params.id + '&followingCount=0&only_own=true';
-		console.log("href", href);
-		request(href, function(error, response, body) {
-			if (!error && response.statusCode === 200) {
-				console.log("here");
-				// console.log(body);
-				var $ = cheerio.load(body);
-				var section = $(".section");
-				console.log(section.length);
-				$('.section').each(function(index, element) {
-					payload += $(this).html(); + '<br/>';
-				});
-				if (body.indexOf(endMsg) !== -1) {
-					si += 20;
-					makeRequest();
-				}
-				else {
-					console.log("final payload:\t" + payload);
-					res.send(payload);
-				}
-			}
-		});
-	};
-	makeRequest();
-});
-
 
