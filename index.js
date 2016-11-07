@@ -92,7 +92,7 @@ app.post('/users', function(req, res) {
 
 app.get('/users', function(req, res) {
 	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-		client.query("select * from users", function(err, result) {
+		client.query("select * from users order by id", function(err, result) {
 			done(); 
 			if (err) {
 				res.send(err);
