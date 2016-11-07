@@ -81,7 +81,10 @@ app.post('/users', function(req, res) {
 	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
 		client.query(sql, function(err, result) {
 			done();
-			if (err) res.send("SQL Error: " + err);
+			if (err) {
+				if (err.indexOf("duplicate key") !== -1) res.send("ID " + id + " Already Registered");
+				else res.send("SQL Error: " + err);
+			}
 			else res.send(name + ' added');
 		});
 	});
