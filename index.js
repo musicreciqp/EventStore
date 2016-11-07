@@ -69,17 +69,69 @@ app.get('/pandora_scrape', function(req, res) {
 	});
 });
 
+app.post('/users', function(req, res) {
+	var tuneinEmail = req.body.tuneinEmail;
+	var name = req.body.name;
+	if (!(name && tuneinEmail)) {
+		res.send("Need Name and Tunein Email");
+		return;
+	}
+	var sql = "insert into users(name, tuneinEmail) values ('" + postgresQuoteEscape(name) + "', '" + postgresQuoteEscape(tuneinEmail) + "')";
+	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+		client.query(sql, function(err, result) {
+			done();
+			if (err) res.send("SQL Error: " + err);
+			else res.send(name + ' added');
+		});
+	});
+});
 
 app.get('/users', function(req, res) {
+	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+		client.query("select * from users", function(err, result) {
+			done(); 
+			if (err) {
+				res.send(err);
+				return;
+			}
+			res.render('pages/users', {users: result.rows});
+		});
+	});
+});
+
+app.get('/users/:id', function(req, res) {
+	var id = req.params.id;
+	if (!id) {
+		res.send("Need ID");
+		return;
+	}
+	else if (isNaN(id)) {
+		res.send("Invalid ID: " + id);
+		return;
+	}
+	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+		var sql = "select * from users where id = " + id;
+		client.query(sql, function(err, result) {
+			done();
+			if (err) {
+				res.send(err);
+				return;
+			}
+			res.render('pages/user', {user : result.rows[0]});
+		})
+	});
+});
+
+app.get('/users_nope', function(req, res) {
 	var users = ["testacc1"];
 	res.render('pages/users', {users: users});
 });
 
-app.get('/users/:id', function(req, res) {
+app.get('/users_nope/:id', function(req, res) {
 	res.render('pages/user', {user: req.params.id});
 });
 
-app.get('/users/:id/scrape', function(req, res) {
+app.get('/users_nope/:id/scrape', function(req, res) {
 	var si = 0;
 	var payload = "";
 	var endMsg = 'No more posts available';

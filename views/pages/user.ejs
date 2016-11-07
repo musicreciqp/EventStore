@@ -5,9 +5,6 @@
   <title>Participant Info</title>
   <script type="text/javascript">
   window.onload = function() {
-    $("#scrapeBtn").click(function() {
-      
-    });
   };
   </script>
 </head>
@@ -17,13 +14,12 @@
 
 <div class="jumbotron text-center">
   <div class="container">
-    <h1><%= user %></h1>
+    <h1><%= user.id %>. <%= user.name %></h1>
   </div>
 </div>
 <div class="container">
   <div class="row">
     <div class="col-md-12">
-      <button id="scrapeBtn" class="btn btn-default">Scrape</button>
     </div>
   </div> <!-- row -->
 </div>
