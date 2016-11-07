@@ -1,2 +1,2 @@
 create table if not exists pandora_events (id SERIAL, event text, username text, stationId text, stationName text, songName text, songHref text, shuffleEnabled boolean, date timestamp);
-create table if not exists users (id SERIAL, name text, tuneinEmail text);
+create table if not exists users (id integer primary key, name text, wpiEmail text);
