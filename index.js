@@ -71,13 +71,13 @@ app.get('/pandora_scrape', function(req, res) {
 
 app.post('/users', function(req, res) {
 	var id = req.body.id;
-	var tuneinEmail = req.body.tuneinEmail;
+	var wpiEmail = req.body.wpiEmail;
 	var name = req.body.name;
-	if (!(id && name && tuneinEmail)) {
+	if (!(id && name && wpiEmail)) {
 		res.send("Need ID, Name and WPI Email");
 		return;
 	}
-	var sql = "insert into users (id, name, wpiemail) values (" + id + ", '" + postgresQuoteEscape(name) + "', '" + postgresQuoteEscape(tuneinEmail) + "')";
+	var sql = "insert into users (id, name, wpiemail) values (" + id + ", '" + postgresQuoteEscape(name) + "', '" + postgresQuoteEscape(wpiEmail) + "')";
 	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
 		client.query(sql, function(err, result) {
 			done();
