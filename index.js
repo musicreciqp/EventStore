@@ -7,6 +7,10 @@ var app = express();
 app.use(bodyParser.json());       // to support JSON-encoded bodies
 app.set('port', (process.env.PORT || 5858));
 
+function postgresQuoteEscape(str) {
+	return str.replace(/'/g, "''");
+}
+
 app.all('/*', function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
@@ -23,7 +27,7 @@ app.listen(app.get('port'), function() { console.log('Node app is running on por
 
 app.post('/pandora-event', function(request, response) {
 	var sql = "INSERT into pandora_events (event, username, stationId, stationName, songName, songHref, shuffleEnabled, date) values ('" +request.body.event + "', '" + request.body.username + "', '" + request.body.stationId + "', '" +
-			request.body.stationName + "', '" + request.body.songName + "', '" + request.body.songHref + "', " + request.body.shuffleEnabled + ", '" + request.body.date + "')";
+			postgresQuoteEscape(request.body.stationName) + "', '" + request.body.songName + "', '" + request.body.songHref + "', " + request.body.shuffleEnabled + ", '" + request.body.date + "')";
 	console.log("SQL: " + sql);
 	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
 		client.query(sql, function (err, result) {
