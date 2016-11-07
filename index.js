@@ -82,7 +82,7 @@ app.post('/users', function(req, res) {
 		client.query(sql, function(err, result) {
 			done();
 			if (err) {
-				if (err.indexOf("duplicate key") !== -1) res.send("ID " + id + " Already Registered");
+				if (err.toString().indexOf("duplicate key") !== -1) res.send("ID " + id + " Already Registered");
 				else res.send("SQL Error: " + err);
 			}
 			else res.send(name + ' added');
