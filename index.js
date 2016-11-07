@@ -24,7 +24,7 @@ app.listen(app.get('port'), function() { console.log('Node app is running on por
 app.post('/pandora-event', function(request, response) {
 	var sql = "INSERT into pandora_events (event, username, stationId, stationName, songName, songHref, shuffleEnabled, date) values ('" +request.body.event + "', '" + request.body.username + "', '" + request.body.stationId + "', '" +
 			request.body.stationName + "', '" + request.body.songName + "', '" + request.body.songHref + "', " + request.body.shuffleEnabled + ", '" + request.body.date + "')";
-	// console.log("SQL: " + sql);
+	console.log("SQL: " + sql);
 	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
 		client.query(sql, function (err, result) {
 				done();
