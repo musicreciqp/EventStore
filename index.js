@@ -22,19 +22,32 @@ app.use(express.static(__dirname + '/public'));
 // views is directory for all template files
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
-app.get('/', function(request, response) { response.render('pages/index'); });
+app.get('/', function(request, res) { res.render('pages/index'); });
 app.listen(app.get('port'), function() { console.log('Node app is running on port', app.get('port')) });
 
-app.post('/pandora-event', function(request, response) {
-	var sql = "INSERT into pandora_events (event, username, stationId, stationName, songName, songHref, shuffleEnabled, date) values ('" +request.body.event + "', '" + request.body.username + "', '" + request.body.stationId + "', '" +
-			postgresQuoteEscape(request.body.stationName) + "', '" + request.body.songName + "', '" + request.body.songHref + "', " + request.body.shuffleEnabled + ", '" + request.body.date + "')";
-	console.log("SQL: " + sql);
+app.post('/pandora-event', function(request, res) {
+	var sql = "INSERT into pandora_events (event, username, stationId, stationName, songName, songHref, shuffleEnabled, date) values ('" + request.body.event + "', '" + postgresQuoteEscape(request.body.username) + "', '" + request.body.stationId + "', '" +
+			postgresQuoteEscape(request.body.stationName) + "', '" + postgresQuoteEscape(request.body.songName) + "', '" + postgresQuoteEscape(request.body.songHref) + "', " + request.body.shuffleEnabled + ", '" + request.body.date + "')";
 	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
 		client.query(sql, function (err, result) {
 				done();
-				if (err) {console.log(err); response.send("Error " + err);}
-				else {response.send("Song Added ");}
+				if (err) {console.log(err); res.send("Error " + err);}
+				else {res.send("Pandora Event Added");}
 			});
+	});
+});
+
+app.post('/tunein-events', function(req, res) {
+	console.log(req.body);
+	var sql = "insert into tunein_events (href, count, userId, date) values ('" + postgresQuoteEscape(req.body.href) + "', " +  req.body.timeCount +
+	 ", " + req.body.userId + ", '" +  req.body.date + "')";
+	console.log(sql);
+	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+	client.query(sql, function (err, result) {
+			done();
+			if (err) {console.log(err); res.send("Error " + err);}
+			else {res.send("Tunein Event Added");}
+		});
 	});
 });
 
