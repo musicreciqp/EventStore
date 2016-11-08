@@ -108,7 +108,7 @@ app.post('/tunein/discovery', function(req, res) {
 		return;
 	}
 	href = postgresQuoteEscape(href);
-	var sql = "insert into tunein_discovery (userId, href, date) values (" + userId + ", '" + href + ", '" + date + "')";
+	var sql = "insert into tunein_discovery (userId, href, date) values (" + userId + ", '" + href + "', '" + date + "')";
 	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
 	client.query(sql, function (err, result) {
 			done();
