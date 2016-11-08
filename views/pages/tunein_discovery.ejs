@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <% include ../partials/header.ejs %>
+  <title>Tunein Discoveries</title>
+  <script type="text/javascript" src="/js/jquery.tablesorter.min.js"></script>
+  <link rel="stylesheet" href="/fancybox/source/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+  <script type="text/javascript" src="/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  <link rel="stylesheet" href="/fancybox/source/helpers/jquery.fancybox-buttons.css?v=1.0.5" type="text/css" media="screen" />
+  <script type="text/javascript" src="/fancybox/source/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+  <script type="text/javascript" src="/fancybox/source/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+  <link rel="stylesheet" href="/fancybox/source/helpers/jquery.fancybox-thumbs.css?v=1.0.7" type="text/css" media="screen" />
+  <script type="text/javascript" src="/fancybox/source/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+
+  <script type="text/javascript">
+    $(document).ready(function() { $("#myTable").tablesorter(); });
+  </script>
+</head>
+
+<body>
+
+<% include ../partials/nav.ejs %>
+
+<div class="container">
+<h2>Tunein Discoveries</h2>
+
+<table id="myTable" class = "tablesorter table" style="width: 100%;">
+	<thead>
+		<tr>
+			<th>Event ID</th>
+			<th>User ID</th>
+      <th>URL</th>
+			<th>Date</th>
+		</tr>
+	</thead>
+	<tbody>
+    <% results.forEach(function(r) { %>
+    		<tr>
+    			<td><%= r.id %></td>
+          <td><a href="/users/<%= r.userid %>"><%= r.userid %></a></td>
+          <td><a href="<%= r.href %>"><%= r.href %></a></td>
+          <td><%= r.date.toLocaleDateString() %> <%= r.date.toLocaleTimeString() %></td>
+    		</tr>
+    <% }); %>
+  </tbody>
+</table>
+
+</div>
+
+</body>
+</html>

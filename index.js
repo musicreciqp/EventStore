@@ -56,7 +56,6 @@ app.post('/tunein-events', function(req, res) {
 	console.log(req.body);
 	var sql = "insert into tunein_events (href, count, userId, date) values ('" + postgresQuoteEscape(req.body.href) + "', " +  req.body.timeCount +
 	 ", " + req.body.userId + ", '" +  req.body.date + "')";
-	console.log(sql);
 	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
 	client.query(sql, function (err, result) {
 			done();
@@ -95,6 +94,42 @@ app.get('/tunein_events', function(request, res) {
       		return row;
       	});
       	res.render('pages/tunein_events', {results: adjustedRows} );
+      } 
+		 });
+  });
+});
+
+app.post('/tunein/discovery', function(req, res) {
+	var userId = req.body.userId;
+	var href = req.body.href;
+	var date = req.body.date;
+	if (userId === undefined || !href || ! date) {
+		res.send("Invalid Input");
+		return;
+	}
+	href = postgresQuoteEscape(href);
+	var sql = "insert into tunein_discovery (userId, href, date) values (" + userId + ", '" + href + ", '" + date + "')";
+	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+	client.query(sql, function (err, result) {
+			done();
+			if (err) {console.log(err); res.send("Error " + err);}
+			else {res.send("Tunein Discovery Added");}
+		});
+	});
+});
+
+app.get('/tunein/discovery', function(req, res) {
+	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+    client.query('SELECT * FROM tunein_discovery', function(err, result) {
+      done();
+      if (err) { console.error(err); res.send("Error " + err); }
+      else {
+      	var adjustedRows = result.rows.map(function(row) {
+      		row.date = new Date(row.date);
+      		row.date.setHours(row.date.getHours() - 4);
+      		return row;
+      	});
+      	res.render('pages/tunein_discovery', {results: adjustedRows} );
       } 
 		 });
   });
