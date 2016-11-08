@@ -68,6 +68,23 @@ app.get('/pandora_events', function(request, res) {
   });
 });
 
+app.get('/tunein_events', function(request, res) {
+	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+    client.query('SELECT * FROM tunein_events', function(err, result) {
+      done();
+      if (err) { console.error(err); res.send("Error " + err); }
+      else {
+      	var adjustedRows = result.rows.map(function(row) {
+      		row.date = new Date(row.date);
+      		row.date.setHours(row.date.getHours() - 4);
+      		return row;
+      	});
+      	res.render('pages/tunein_events', {results: adjustedRows} );
+      } 
+		 });
+  });
+});
+
 app.get('/pandora_scrape', function(req, res) {
 	var href = req.param('href');
 	var errorMsg = function() {res.send("No Song For Event");};
