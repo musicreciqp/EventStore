@@ -7,6 +7,16 @@ var app = express();
 app.use(bodyParser.json());       // to support JSON-encoded bodies
 app.set('port', (process.env.PORT || 5858));
 
+function getStudyEmail(id) {
+	 var str = 'muiqp';
+	 if (id < 10) str += 0;
+	 str += id + '@hmamail.com'
+	 return str;
+}
+
+var allowedPandoraEmails = ["testacc@mailinator.com"];
+for (var i = 0; i < 20; i++) allowedPandoraEmails.push(getStudyEmail(i));
+
 function postgresQuoteEscape(str) {
 	return str.replace(/'/g, "''");
 }
@@ -26,7 +36,12 @@ app.get('/', function(request, res) { res.render('pages/index'); });
 app.listen(app.get('port'), function() { console.log('Node app is running on port', app.get('port')) });
 
 app.post('/pandora-event', function(request, res) {
-	var sql = "INSERT into pandora_events (event, username, stationId, stationName, songName, songHref, shuffleEnabled, date) values ('" + request.body.event + "', '" + postgresQuoteEscape(request.body.username) + "', '" + request.body.stationId + "', '" +
+	var username = postgresQuoteEscape(request.body.username);
+	if (allowedPandoraEmails.indexOf(username) === -1) {
+		res.send("Email Not Permitted");
+		return
+	}
+	var sql = "INSERT into pandora_events (event, username, stationId, stationName, songName, songHref, shuffleEnabled, date) values ('" + request.body.event + "', '" + username + "', '" + request.body.stationId + "', '" +
 			postgresQuoteEscape(request.body.stationName) + "', '" + postgresQuoteEscape(request.body.songName) + "', '" + postgresQuoteEscape(request.body.songHref) + "', " + request.body.shuffleEnabled + ", '" + request.body.date + "')";
 	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
 		client.query(sql, function (err, result) {
