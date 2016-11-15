@@ -230,7 +230,7 @@ app.get('/users/:id/tunein', function(req, res) {
 				res.send(err);
 				return;
 			}
-			res.send({events: result.rows});
+			res.render('partials/tunein_user', {results:result.rows});
 		});
 	});
 });
@@ -244,7 +244,7 @@ app.get('/users/:id/tunein/discovery', function(req, res) {
 				res.send(err);
 				return;
 			}
-			res.send({discoveries: result.rows});
+			res.render('partials/tunein_discover_user', {results:result.rows});
 		});
 	});
 });

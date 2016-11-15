@@ -1,0 +1,20 @@
+<table id="myTable" class = "tablesorter table" style="width: 100%;">
+	<thead>
+		<tr>
+			<th>Event ID</th>
+			<th>User ID</th>
+      <th>URL</th>
+			<th>Date</th>
+		</tr>
+	</thead>
+	<tbody>
+    <% results.forEach(function(r) { %>
+    		<tr>
+    			<td><%= r.id %></td>
+          <td><a href="/users/<%= r.userid %>"><%= r.userid %></a></td>
+          <td><a href="<%= r.href %>"><%= r.href %></a></td>
+          <td><%= r.date.toLocaleDateString() %> <%= r.date.toLocaleTimeString() %></td>
+    		</tr>
+    <% }); %>
+  </tbody>
+</table>
