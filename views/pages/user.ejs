@@ -5,8 +5,13 @@
   <title>Participant Info</title>
   <script type="text/javascript">
   window.onload = function() {
-    $.get(document.location.href + '/pandora', function(result) {
+    var url = document.location.href;
+    if (url.charAt(url.length -1) !== '/') url += '/';
+    $.get(url + 'pandora', function(result) {
       $('#pandoraBin')[0].innerHTML = result;
+    });
+    $('.row').click(function() {
+      $(this.children[0]).toggle();
     });
   };
   </script>
@@ -27,7 +32,6 @@
 </div>
 <div class="container">
   <div class="row">
-    <h2>Pandora Events</h2>
     <div id="pandoraBin"></div>
   </div> <!-- row -->
   <div class="row">
