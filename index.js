@@ -216,7 +216,7 @@ app.get('/users/:id/pandora', function(req, res) {
 				res.send(err);
 				return;
 			}
-			res.send(result);
+			res.send({events: result.rows});
 		});
 	});
 });
