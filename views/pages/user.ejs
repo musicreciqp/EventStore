@@ -5,7 +5,9 @@
   <title>Participant Info</title>
   <script type="text/javascript">
   window.onload = function() {
-
+    $.get(document.location.href + 'pandora', function(result) {
+      $('#pandoraBin')[0].innerHTML = result;
+    });
   };
   </script>
   <style>
@@ -26,6 +28,7 @@
 <div class="container">
   <div class="row">
     <h2>Pandora Events</h2>
+    <div id="pandoraBin"></div>
   </div> <!-- row -->
   <div class="row">
     <h2>Tunein Events</h2>
