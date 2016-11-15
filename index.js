@@ -220,3 +220,31 @@ app.get('/users/:id/pandora', function(req, res) {
 		});
 	});
 });
+
+app.get('/users/:id/tunein', function(req, res) {
+	var sql = "select * from tunein_events where userid = " + req.params.id;	
+	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+		client.query(sql, function(err, result) {
+			done();
+			if (err) {
+				res.send(err);
+				return;
+			}
+			res.send({events: result.rows});
+		});
+	});
+});
+
+app.get('/users/:id/tunein/discovery', function(req, res) {
+	var sql = "select * from tunein_discovery where userid = " + req.params.id;	
+	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+		client.query(sql, function(err, result) {
+			done();
+			if (err) {
+				res.send(err);
+				return;
+			}
+			res.send({discoveries: result.rows});
+		});
+	});
+});
