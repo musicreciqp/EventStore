@@ -42,7 +42,7 @@ app.post('/pandora-event', function(request, res) {
 		return
 	}
 	var sql = "INSERT into pandora_events (event, username, stationId, stationName, songName, songHref, shuffleEnabled, date) values ('" + request.body.event + "', '" + username + "', '" + request.body.stationId + "', '" +
-			postgresQuoteEscape(request.body.stationName) + "', '" + postgresQuoteEscape(request.body.songName) + "', '" + postgresQuoteEscape(request.body.songHref) + "', " + request.body.shuffleEnabled + ", '" + request.body.date + "')";
+			postgresQuoteEscape(request.body.stationName) + "', '" + postgresQuoteEscape(request.body.songName) + "', '" + postgresQuoteEscape(request.body.songHref) + "', " + request.body.shuffleEnabled + ", '" + new Date().toISOString() + "')";
 	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
 		client.query(sql, function (err, result) {
 				done();
@@ -55,7 +55,7 @@ app.post('/pandora-event', function(request, res) {
 app.post('/tunein-events', function(req, res) {
 	console.log(req.body);
 	var sql = "insert into tunein_events (href, count, userId, date) values ('" + postgresQuoteEscape(req.body.href) + "', " +  req.body.timeCount +
-	 ", " + req.body.userId + ", '" +  req.body.date + "')";
+	 ", " + req.body.userId + ", '" + new Date().toISOString() + "')";
 	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
 	client.query(sql, function (err, result) {
 			done();
@@ -102,7 +102,7 @@ app.get('/tunein_events', function(request, res) {
 app.post('/tunein/discovery', function(req, res) {
 	var userId = req.body.userId;
 	var href = req.body.href;
-	var date = req.body.date;
+	var date = new Date().toISOString();
 	if (userId === undefined || !href || ! date) {
 		res.send("Invalid Input");
 		return;
@@ -202,6 +202,21 @@ app.get('/users/:id', function(req, res) {
 				return;
 			}
 			res.render('pages/user', {user : result.rows[0]});
+		});
+	});
+});
+
+app.get('/users/:id/pandora', function(req, res) {
+	var username = getStudyEmail(req.params.id);
+	var sql = "select * from pandora_events where username like '" + username + "'";
+	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+		client.query(sql, function(err, result) {
+			done();
+			if (err) {
+				res.send(err);
+				return;
+			}
+			res.send(result);
 		});
 	});
 });
