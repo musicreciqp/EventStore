@@ -53,7 +53,6 @@ app.post('/pandora-event', function(request, res) {
 });
 
 app.post('/tunein-events', function(req, res) {
-	console.log(req.body);
 	var sql = "insert into tunein_events (href, count, userId, date) values ('" + postgresQuoteEscape(req.body.href) + "', " +  req.body.timeCount +
 	 ", " + req.body.userId + ", '" + new Date().toISOString() + "')";
 	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
