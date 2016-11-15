@@ -73,7 +73,7 @@ app.get('/pandora_events', function(request, res) {
       else {
       	var adjustedRows = result.rows.map(function(row) {
       		row.date = new Date(row.date);
-      		row.date.setHours(row.date.getHours() - 4);
+      		// row.date.setHours(row.date.getHours() - 4);
       		return row;
       	});
       	res.render('pages/pandora_events', {results: adjustedRows} );
@@ -90,7 +90,7 @@ app.get('/tunein_events', function(request, res) {
       else {
       	var adjustedRows = result.rows.map(function(row) {
       		row.date = new Date(row.date);
-      		row.date.setHours(row.date.getHours() - 4);
+      		// row.date.setHours(row.date.getHours() - 4);
       		return row;
       	});
       	res.render('pages/tunein_events', {results: adjustedRows} );
@@ -126,7 +126,7 @@ app.get('/tunein/discovery', function(req, res) {
       else {
       	var adjustedRows = result.rows.map(function(row) {
       		row.date = new Date(row.date);
-      		row.date.setHours(row.date.getHours() - 4);
+      		//row.date.setHours(row.date.getHours() - 4);
       		return row;
       	});
       	res.render('pages/tunein_discovery', {results: adjustedRows} );
