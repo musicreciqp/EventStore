@@ -216,7 +216,7 @@ app.get('/users/:id/pandora', function(req, res) {
 				res.send(err);
 				return;
 			}
-			res.send({events: result.rows});
+			res.render('paartials/pandora_user', {results:results.rows});
 		});
 	});
 });
