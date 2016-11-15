@@ -12,6 +12,7 @@
     $.get(url + 'tunein/discovery', function(result) { $('#tuneinDiscoverBin')[0].innerHTML = result; });
     $('h2').click(function() { $(this.parentElement.children[1]).toggle(); });
     $('h2').each(function(){$(this).attr("title", "Click To Show/Hide");});
+    $('.tablesorter').tablesorter();
   };
   </script>
   <style>
@@ -20,6 +21,9 @@
   }
   .row h2:hover {
     cursor: pointer;  
+  }
+  thead {
+    text-align: center;
   }
   </style>
 </head>
