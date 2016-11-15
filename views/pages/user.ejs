@@ -10,10 +10,8 @@
     $.get(url + 'pandora', function(result) { $('#pandoraBin')[0].innerHTML = result; });
     $.get(url + 'tunein', function(result) { $('#tuneinEventBin')[0].innerHTML = result; });
     $.get(url + 'tunein/discovery', function(result) { $('#tuneinDiscoverBin')[0].innerHTML = result; });
-    $('.row h2').click(function() {
-      $(this.children[1]).toggle();
-    });
-    $('.row h2').each(function(){$(this).attr("title", "Click To Show/Hide");});
+    $('h2').click(function() { $(this.parentElement.children[1]).toggle(); });
+    $('h2').each(function(){$(this).attr("title", "Click To Show/Hide");});
   };
   </script>
   <style>
