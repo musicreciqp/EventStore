@@ -13,11 +13,15 @@
     $('.row').click(function() {
       $(this.children[1]).toggle();
     });
+    $('h2').each(function(){$(this).attr("title", "Click To Show/Hide");});
   };
   </script>
   <style>
   .row {
     text-align: center;
+  }
+  .row h2:hover {
+    cursor: pointer;  
   }
   </style>
 </head>
