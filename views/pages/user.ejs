@@ -10,10 +10,10 @@
     $.get(url + 'pandora', function(result) {
       $('#pandoraBin')[0].innerHTML = result;
     });
-    $('.row').click(function() {
+    $('.row h2').click(function() {
       $(this.children[1]).toggle();
     });
-    $('h2').each(function(){$(this).attr("title", "Click To Show/Hide");});
+    $('.row h2').each(function(){$(this).attr("title", "Click To Show/Hide");});
   };
   </script>
   <style>
