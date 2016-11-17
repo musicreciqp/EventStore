@@ -36,7 +36,7 @@
 
 <div class="jumbotron text-center">
   <div class="container">
-    <h1><%= user.id %>. <%= user.name %></h1>
+    <h1><%= user.id %>. <%= user.name %> <a href="/users/<%= user.id + 1 %>" title="Next User">➡️ </a></h1>
     <h3><a class="redlink" target="_blank" href="<%= lastfm %>">Open last.fm</a></h3>
     <h3><a class="redlink" target="_blank" href="<%= pandora %>">Open Pandora</a></h3>
   </div>

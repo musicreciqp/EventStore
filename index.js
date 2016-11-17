@@ -220,7 +220,7 @@ app.get('/users/:id', function(req, res) {
 				});
 			else res.render('pages/user', {
 				user : {
-					id: -1, 
+					id: Number(id), 
 					name: "YIKES NO USER"
 				},
 				lastfm: '',
