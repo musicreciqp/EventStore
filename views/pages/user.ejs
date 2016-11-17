@@ -21,7 +21,8 @@
     $('h2').click(function() { $(this.parentElement.children[1]).toggle(); });
     $('h2').each(function(){$(this).attr("title", "Click To Show/Hide");});
     $('.tablesorter').tablesorter();
-    function openDetails(href) {
+  };
+  function openDetails(href) {
       $.get('/pandora_scrape', {href: href}, function(resp) { 
         $.fancybox({ 
           afterShow: function() {
@@ -51,7 +52,6 @@
         }); 
       });
     };
-  };
   </script>
   <style>
   .row {
