@@ -212,10 +212,19 @@ app.get('/users/:id', function(req, res) {
 				res.send(err);
 				return;
 			}
-			res.render('pages/user', {
-				user : result.rows[0], 
-				lastfm: getLastFmUrl(Number(id)),
-				pandora: getPandoraUrl(Number(id))
+			if (result.rows[0])
+				res.render('pages/user', {
+					user : result.rows[0], 
+					lastfm: getLastFmUrl(Number(id)),
+					pandora: getPandoraUrl(Number(id))
+				});
+			else res.render('pages/user', {
+				user : {
+					id: -1, 
+					name: "YIKES NO USER"
+				},
+				lastfm: '',
+				pandora: ''
 			});
 		});
 	});
