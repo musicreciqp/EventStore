@@ -3,6 +3,14 @@
 <head>
   <% include ../partials/header.ejs %>
   <title>Participant Info</title>
+  <script type="text/javascript" src="/js/jquery.tablesorter.min.js"></script>
+  <link rel="stylesheet" href="/fancybox/source/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+  <script type="text/javascript" src="/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  <link rel="stylesheet" href="/fancybox/source/helpers/jquery.fancybox-buttons.css?v=1.0.5" type="text/css" media="screen" />
+  <script type="text/javascript" src="/fancybox/source/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+  <script type="text/javascript" src="/fancybox/source/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+  <link rel="stylesheet" href="/fancybox/source/helpers/jquery.fancybox-thumbs.css?v=1.0.7" type="text/css" media="screen" />
+  <script type="text/javascript" src="/fancybox/source/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
   <script type="text/javascript">
   window.onload = function() {
     var url = document.location.href;
@@ -13,6 +21,35 @@
     $('h2').click(function() { $(this.parentElement.children[1]).toggle(); });
     $('h2').each(function(){$(this).attr("title", "Click To Show/Hide");});
     $('.tablesorter').tablesorter();
+    function openDetails(href) {
+      $.get('/pandora_scrape', {href: href}, function(resp) { 
+        $.fancybox({ 
+          afterShow: function() {
+            var fb = $('.fancybox-inner');
+            var children = fb.children();
+            var beforeFirstDiv = true;
+            for (var i = 0; i < children.length ;i++) {
+              var child = children[i];
+              if (beforeFirstDiv) {
+                if (child.tagName.toLowerCase() === "div") {
+                  beforeFirstDiv = false;
+                  child.style.display = "block";            
+                }
+              }
+              if (child.tagName.toLowerCase() === "p") child.remove();
+              if (child.className === "show_more") { child.remove(); break;}
+            }
+            var fixPandoraHref = function(a) {
+              a.href = a.href.replace('warm-lake-98113.herokuapp', 'pandora');
+              a.taret = "_blank";
+              return a;
+            }
+            $('.track_link').each(function(i, a) {fixPandoraHref(a);});
+            $('.artist_link').each(function(i, a) {fixPandoraHref(a);});
+          },
+          content: resp
+        }); 
+      });
   };
   </script>
   <style>
