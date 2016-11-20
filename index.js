@@ -28,6 +28,11 @@ pg.connect(process.env.DATABASE_URL, function(err, client, done) {
 var app = express();
 app.use(bodyParser.json());       // to support JSON-encoded bodies
 app.set('port', (process.env.PORT || 5858));
+app.get('/auth/google', passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }));
+app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), function(req, res) {
+    res.redirect('/');
+});
+
 
 function getStudyEmail(id) {
 	 var str = 'muiqp';
