@@ -126,6 +126,11 @@ app.post('/tunein-events', function(req, res) {
 });
 
 app.get('/pandora_events', function(request, res) {
+	mySession = request.session;
+	if (!mySession.username) {
+		res.render('pages/account');
+		return;
+	}
 	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
     client.query('SELECT * FROM pandora_events', function(err, result) {
       done();
@@ -143,6 +148,11 @@ app.get('/pandora_events', function(request, res) {
 });
 
 app.get('/tunein_events', function(request, res) {
+	mySession = request.session;
+	if (!mySession.username) {
+		res.render('pages/account');
+		return;
+	}
 	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
     client.query('SELECT * FROM tunein_events', function(err, result) {
       done();
@@ -179,6 +189,11 @@ app.post('/tunein/discovery', function(req, res) {
 });
 
 app.get('/tunein/discovery', function(req, res) {
+	mySession = req.session;
+	if (!mySession.username) {
+		res.render('pages/account');
+		return;
+	}
 	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
     client.query('SELECT * FROM tunein_discovery', function(err, result) {
       done();
@@ -210,6 +225,11 @@ app.get('/pandora_scrape', function(req, res) {
 });
 
 app.post('/users', function(req, res) {
+	mySession = req.session;
+	if (!mySession.username) {
+		res.render('pages/account');
+		return;
+	}
 	var id = req.body.id;
 	var wpiEmail = req.body.wpiEmail;
 	var name = req.body.name;
@@ -231,6 +251,11 @@ app.post('/users', function(req, res) {
 });
 
 app.get('/users', function(req, res) {
+	mySession = req.session;
+	if (!mySession.username) {
+		res.render('pages/account');
+		return;
+	}
 	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
 		client.query("select * from users order by id", function(err, result) {
 			done(); 
@@ -244,6 +269,11 @@ app.get('/users', function(req, res) {
 });
 
 app.get('/users/:id', function(req, res) {
+	mySession = req.session;
+	if (!mySession.username) {
+		res.render('pages/account');
+		return;
+	}
 	var id = req.params.id;
 	if (!id) {
 		res.send("Need ID");
@@ -280,6 +310,11 @@ app.get('/users/:id', function(req, res) {
 });
 
 app.get('/users/:id/pandora', function(req, res) {
+	mySession = req.session;
+	if (!mySession.username) {
+		res.render('pages/account');
+		return;
+	}
 	var username = getStudyEmail(req.params.id);
 	var sql = "select * from pandora_events where username like '" + username + "'";
 	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
@@ -295,6 +330,11 @@ app.get('/users/:id/pandora', function(req, res) {
 });
 
 app.get('/users/:id/tunein', function(req, res) {
+	mySession = req.session;
+	if (!mySession.username) {
+		res.render('pages/account');
+		return;
+	}
 	var sql = "select * from tunein_events where userid = " + req.params.id;	
 	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
 		client.query(sql, function(err, result) {
@@ -309,6 +349,11 @@ app.get('/users/:id/tunein', function(req, res) {
 });
 
 app.get('/users/:id/tunein/discovery', function(req, res) {
+	mySession = req.session;
+	if (!mySession.username) {
+		res.render('pages/account');
+		return;
+	}
 	var sql = "select * from tunein_discovery where userid = " + req.params.id;	
 	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
 		client.query(sql, function(err, result) {
