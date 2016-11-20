@@ -24,7 +24,8 @@
     inputUsername.keyup(validate);
     inputPassword.keyup(validate);
 
-    btnLogin.click(function() {
+    var subit = function() {
+      if (btnLogin.attr('disabled')) return;
       var payload = {
         username: inputUsername[0].value.trim(),
         hash: CryptoJS.SHA1(inputPassword[0].value).toString()
@@ -39,7 +40,17 @@
           else alert(resp);
         }
       });
-    });
+    };
+
+    var enterSubmit = function(e) {
+      if (e.which === 13) {
+        subit();
+      }
+    };
+
+    inputUsername.keypress(enterSubmit);
+    inputPassword.keypress(enterSubmit);
+    btnLogin.click(subit);
   };
   </script>
 </head>
