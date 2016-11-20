@@ -62,8 +62,8 @@ app.get('/', function(req, res) {
 app.post('/login', function(req, res) {
 	var username = postgresQuoteEscape(req.body.username);
 	var hash = req.body.hash;
-	var sql = "select * from staff where username = '" + username + "";
-	pg.connect(sqprocess.env.DATABASE_URL, function(err, client, done) {
+	var sql = "select * from staff where username = '" + username + "'";
+	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
     client.query(sql, function(err, result) {
       done();
       if (err) { 
@@ -72,12 +72,11 @@ app.post('/login', function(req, res) {
       	return;
       }
       if (!result.rows.length || result.rows[0].hash !== hash) {
-      	res.end("Invalid");
+      	res.end("Invalid Login");
       	return;
       }
 			mySession = req.session;
 			mySession.username = req.body.username;
-			consolg.log("username", req.body.username);
 			res.end('done');
 		});
   });

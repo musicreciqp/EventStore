@@ -20,14 +20,21 @@
     inputPassword.keyup(validate);
 
     btnLogin.click(function() {
-      $.post('/login', {
+      var payload = {
         username: inputUsername[0].value.trim(),
         hash: CryptoJS.SHA1(inputPassword[0].value).toString()
-      }, function(res) {
-        
+      };
+      $.ajax({
+        url: '/login',
+        type: 'POST',
+        data: JSON.stringify(payload),
+        contentType : 'application/json',
+        success: function(resp) { 
+          if (resp === 'done') window.location.href = '/';
+          else alert(resp);
+        }
       });
     });
-
   };
   </script>
 </head>
@@ -35,13 +42,12 @@
   <% include ../partials/nav.ejs %>
 <div class="jumbotron text-center">
   <div class="container">
-    <h1>Music IQP Dashboard</h1>
+    <h1>Dashboard Login</h1>
   </div>
 </div>
 <div class="container">
   <div class="row">
     <div class="col-md-12">
-      <h2>Login</h2>
       <div class="input-group">
         <label for="username">Username</label>
         <input id="username" type="text" class="form-control" placeholder="Username">
