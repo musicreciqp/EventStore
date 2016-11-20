@@ -33,10 +33,6 @@ function postgresQuoteEscape(str) {
 	return str.replace(/'/g, "''");
 }
 
-var session = require('express-session');
-app.use(session({secret: 'ssshhhhh'}));
-
-
 app.all('/*', function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
@@ -48,48 +44,7 @@ app.use(express.static(__dirname + '/public'));
 // views is directory for all template files
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
-
-var mySession;
-app.get('/', function(req, res) { 
-	mySession=req.session;
-	if (mySession.username) {
-		res.render('pages/index'); 	
-	} else {
-		res.render('pages/account');
-	}
-});
-
-app.post('/login', function(req, res) {
-	var username = postgresQuoteEscape(req.body.username);
-	var hash = req.body.hash;
-	var sql = "select * from staff where username = '" + username + "";
-	pg.connect(sqprocess.env.DATABASE_URL, function(err, client, done) {
-    client.query(sql, function(err, result) {
-      done();
-      if (err) { 
-      	console.error(err);
-      	res.end("Error: " + err); 
-      	return;
-      }
-      if (!result.rows.length || result.rows[0].hash !== hash) {
-      	res.end("Invalid");
-      	return;
-      }
-			mySession = req.session;
-			mySession.username = req.body.username;
-			consolg.log("username", req.body.username);
-			res.end('done');
-		});
-  });
-});
-
-app.get('/logout', function(req, res) {
-	req.session.destroy(function(err) {
-		if (err) {console.log(err);}
-		else res.redirect('/login');
-	})
-});
-
+app.get('/', function(request, res) { res.render('pages/index'); });
 app.listen(app.get('port'), function() { console.log('Node app is running on port', app.get('port')) });
 
 
