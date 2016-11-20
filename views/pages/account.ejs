@@ -20,9 +20,11 @@
     inputPassword.keyup(validate);
 
     btnLogin.click(function() {
-      console.log({
+      $.post('/login', {
         username: inputUsername[0].value.trim(),
         hash: CryptoJS.SHA1(inputPassword[0].value).toString()
+      }, function(res) {
+        
       });
     });
 
