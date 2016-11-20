@@ -47,6 +47,11 @@ app.set('view engine', 'ejs');
 app.get('/', function(request, res) { res.render('pages/index'); });
 app.listen(app.get('port'), function() { console.log('Node app is running on port', app.get('port')) });
 
+
+app.get('/account', function(req, res) {
+	res.render('pages/account');
+});
+
 app.post('/pandora-event', function(request, res) {
 	var username = postgresQuoteEscape(request.body.username);
 	if (allowedPandoraEmails.indexOf(username) === -1) {

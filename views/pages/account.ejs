@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <% include ../partials/header.ejs %>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/sha1.js"></script>
+  <script>
+  window.onload = function() {
+    var inputUsername = $('#username');
+    var inputPassword = $('#password');
+    var btnLogin = $('#btnLogin');
+    
+    var validate = function() {
+      if (inputUsername[0].value.trim() === '' || inputPassword[0].value.trim() === '') 
+        btnLogin.attr("disabled", "disabled");
+      else 
+        btnLogin.removeAttr('disabled');
+    };
+
+    inputUsername.keyup(validate);
+    inputPassword.keyup(validate);
+
+    btnLogin.click(function() {
+      console.log({
+        username: inputUsername[0].value.trim(),
+        hash: CryptoJS.SHA1(inputPassword[0].value).toString()
+      });
+    });
+
+  };
+  </script>
+</head>
+<body>
+  <% include ../partials/nav.ejs %>
+<div class="jumbotron text-center">
+  <div class="container">
+    <h1>Music IQP Dashboard</h1>
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h2>Login</h2>
+      <div class="input-group">
+        <label for="username">Username</label>
+        <input id="username" type="text" class="form-control" placeholder="Username">
+      </div>
+      <div class="input-group">
+        <label for="password">Passowrd</label>
+        <input id="password" type="password" class="form-control" placeholder="Passowrd">
+      </div>
+      <btn id="btnLogin" class="btn btn-default" disabled="disabled">Login</btn>
+    </div>
+  </div> <!-- row -->
+</div>
+
+</body>
+</html>
