@@ -12,15 +12,10 @@ pg.connect(process.env.DATABASE_URL, function(err, client, done) {
     done();
     var creds = result.rows[0];
     passport.use(new GoogleStrategy({
-	    clientID: creds.id,
-	    clientSecret: creds.secret,
-	    callbackURL: "https://warm-lake-98113.herokuapp.com/"
-  	}, 
-  	function(accessToken, refreshToken, profile, done) {
-      User.findOrCreate({ googleId: profile.id }, function (err, user) {
-        return done(err, user);
-    	});
-    }));
+    clientID: creds.client,
+    clientSecret: creds.secret,
+    callbackURL: "https://warm-lake-98113.herokuapp.com/"
+  	}));
 	});
 });
 
