@@ -3,6 +3,23 @@ var bodyParser = require('body-parser');
 var cheerio = require('cheerio');
 var pg = require('pg'); 
 var request = require('request');
+
+var passport = require('passport');
+var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+
+pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+  client.query('SELECT * FROM google_auth', function(err, result) {
+    done();
+    var creds = result.rows[0];
+    passport.use(new GoogleStrategy({
+    clientID: creds.client,
+    clientSecret: creds.secret,
+    callbackURL: "https://warm-lake-98113.herokuapp.com/"
+  	}));
+	});
+});
+
+
 var app = express();
 app.use(bodyParser.json());       // to support JSON-encoded bodies
 app.set('port', (process.env.PORT || 5858));
