@@ -225,11 +225,6 @@ app.get('/pandora_scrape', function(req, res) {
 });
 
 app.post('/users', function(req, res) {
-	mySession = req.session;
-	if (!mySession.username) {
-		res.redirect('/account');
-		return;
-	}
 	var id = req.body.id;
 	var wpiEmail = req.body.wpiEmail;
 	var name = req.body.name;
