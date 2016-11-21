@@ -319,7 +319,12 @@ app.get('/users/:id/pandora', function(req, res) {
 				res.send(err);
 				return;
 			}
-			res.render('partials/pandora_user', {results:result.rows});
+			var adjustedRows = result.rows.map(function(row) {
+      		row.date = new Date(row.date);
+      		row.date.setHours(row.date.getHours() - 5);
+      		return r;
+      });
+			res.render('partials/pandora_user', {results:adjustedRows});
 		});
 	});
 });
@@ -338,7 +343,12 @@ app.get('/users/:id/tunein', function(req, res) {
 				res.send(err);
 				return;
 			}
-			res.render('partials/tunein_user', {results:result.rows});
+			var adjustedRows = result.rows.map(function(row) {
+      		row.date = new Date(row.date);
+      		row.date.setHours(row.date.getHours() - 5);
+      		return r;
+      });
+			res.render('partials/tunein_user', {results:adjustedRows});
 		});
 	});
 });
@@ -357,7 +367,12 @@ app.get('/users/:id/tunein/discovery', function(req, res) {
 				res.send(err);
 				return;
 			}
-			res.render('partials/tunein_discover_user', {results:result.rows});
+			var adjustedRows = result.rows.map(function(row) {
+      		row.date = new Date(row.date);
+      		row.date.setHours(row.date.getHours() - 5);
+      		return r;
+      });
+			res.render('partials/tunein_discover_user', {results:adjustedRows});
 		});
 	});
 });
