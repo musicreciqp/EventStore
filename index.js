@@ -104,25 +104,27 @@ app.post('/pandora-event', function(request, res) {
 	}
 	var sql = "INSERT into pandora_events (event, username, stationId, stationName, songName, songHref, shuffleEnabled, date) values ('" + request.body.event + "', '" + username + "', '" + request.body.stationId + "', '" +
 			postgresQuoteEscape(request.body.stationName) + "', '" + postgresQuoteEscape(request.body.songName) + "', '" + postgresQuoteEscape(request.body.songHref) + "', " + request.body.shuffleEnabled + ", '" + new Date().toISOString() + "')";
-	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-		client.query(sql, function (err, result) {
-				done();
-				if (err) {console.log(err); res.send("Error " + err);}
-				else {res.send("Pandora Event Added");}
-			});
-	});
+	res.send("Data Collection is Disabled");
+	// pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+	// 	client.query(sql, function (err, result) {
+	// 			done();
+	// 			if (err) {console.log(err); res.send("Error " + err);}
+	// 			else {res.send("Pandora Event Added");}
+	// 		});
+	// });
 });
 
 app.post('/tunein-events', function(req, res) {
 	var sql = "insert into tunein_events (href, count, userId, date) values ('" + postgresQuoteEscape(req.body.href) + "', " +  req.body.timeCount +
 	 ", " + req.body.userId + ", '" + new Date().toISOString() + "')";
-	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-	client.query(sql, function (err, result) {
-			done();
-			if (err) {console.log(err); res.send("Error " + err);}
-			else {res.send("Tunein Event Added");}
-		});
-	});
+	res.send("Data Collection is Disabled");
+	// pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+	// client.query(sql, function (err, result) {
+	// 		done();
+	// 		if (err) {console.log(err); res.send("Error " + err);}
+	// 		else {res.send("Tunein Event Added");}
+	// 	});
+	// });
 });
 
 app.get('/pandora_events', function(request, res) {
@@ -179,13 +181,14 @@ app.post('/tunein/discovery', function(req, res) {
 	}
 	href = postgresQuoteEscape(href);
 	var sql = "insert into tunein_discovery (userId, href, date) values (" + userId + ", '" + href + "', '" + date + "')";
-	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-	client.query(sql, function (err, result) {
-			done();
-			if (err) {console.log(err); res.send("Error " + err);}
-			else {res.send("Tunein Discovery Added");}
-		});
-	});
+	res.send("Data Collection is Disabled");
+	// pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+	// client.query(sql, function (err, result) {
+	// 		done();
+	// 		if (err) {console.log(err); res.send("Error " + err);}
+	// 		else {res.send("Tunein Discovery Added");}
+	// 	});
+	// });
 });
 
 app.get('/tunein/discovery', function(req, res) {
@@ -258,6 +261,11 @@ app.get('/users', function(req, res) {
 				res.send(err);
 				return;
 			}
+			var adjustedRows = result.rows.map(function(row, index) {
+				row.previous = index > 0 ? index - 1 : null;
+				row.next = index + 1 === result.rows.length ? null : index + 1;
+				return row;
+			});
 			res.render('pages/users', {users: result.rows});
 		});
 	});
