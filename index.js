@@ -140,7 +140,6 @@ app.get('/pandora_events', function(request, res) {
       else {
       	var adjustedRows = result.rows.map(function(row) {
       		row.date = new Date(row.date);
-      		row.date.setHours(row.date.getHours() - 5);
       		return row;
       	});
       	res.render('pages/pandora_events', {results: adjustedRows} );
@@ -162,7 +161,6 @@ app.get('/tunein_events', function(request, res) {
       else {
       	var adjustedRows = result.rows.map(function(row) {
       		row.date = new Date(row.date);
-      		row.date.setHours(row.date.getHours() - 5);
       		return row;
       	});
       	res.render('pages/tunein_events', {results: adjustedRows} );
@@ -204,7 +202,6 @@ app.get('/tunein/discovery', function(req, res) {
       else {
       	var adjustedRows = result.rows.map(function(row) {
       		row.date = new Date(row.date);
-      		row.date.setHours(row.date.getHours() - 5);
       		return row;
       	});
       	res.render('pages/tunein_discovery', {results: adjustedRows} );
@@ -329,7 +326,6 @@ app.get('/users/:id/pandora', function(req, res) {
 			}
 			var adjustedRows = result.rows.map(function(row) {
       		row.date = new Date(row.date);
-      		row.date.setHours(row.date.getHours() - 5);
       		return row;
       });
 			res.render('partials/pandora_user', {results:adjustedRows});
@@ -353,7 +349,6 @@ app.get('/users/:id/tunein', function(req, res) {
 			}
 			var adjustedRows = result.rows.map(function(row) {
       		row.date = new Date(row.date);
-      		row.date.setHours(row.date.getHours() - 5);
       		return row;
       });
 			res.render('partials/tunein_user', {results:adjustedRows});
@@ -377,7 +372,6 @@ app.get('/users/:id/tunein/discovery', function(req, res) {
 			}
 			var adjustedRows = result.rows.map(function(row) {
       		row.date = new Date(row.date);
-      		row.date.setHours(row.date.getHours() - 5);
       		return row;
       });
 			res.render('partials/tunein_discover_user', {results:adjustedRows});
