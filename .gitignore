@@ -16,3 +16,4 @@ docker-compose.yml
 csv/
 csv.zip
 pandora_exclusive.csv
+users/
