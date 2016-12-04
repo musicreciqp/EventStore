@@ -7,9 +7,6 @@
 \copy (select * from pandora_events where username ='muiqp13@hmamail.com' and event in ('Skip', 'Thumb Up Added', 'Thumb Up Deleted', 'Thumb Down Added', 'Thumb Down Deleted', 'Station Select') order by id) to ~/Desktop/EventStore/users/13_events.csv DELIMITER ',' CSV HEADER;
 \copy (select distinct songname, songhref from pandora_events where username ='muiqp13@hmamail.com') to ~/Desktop/EventStore/users/13_songs.csv DELIMITER ',' CSV HEADER;
 
-\copy (select * from pandora_events where username ='muiqp00@hmamail.com' and event in ('Skip', 'Thumb Up Added', 'Thumb Up Deleted', 'Thumb Down Added', 'Thumb Down Deleted', 'Station Select') order by id) to ~/Desktop/EventStore/users/00_events.csv DELIMITER ',' CSV HEADER;
-\copy (select distinct songname, songhref from pandora_events where username ='muiqp00@hmamail.com') to ~/Desktop/EventStore/users/00_songs.csv DELIMITER ',' CSV HEADER;
-
 \copy (select * from pandora_events where username ='muiqp07@hmamail.com' and event in ('Skip', 'Thumb Up Added', 'Thumb Up Deleted', 'Thumb Down Added', 'Thumb Down Deleted', 'Station Select') order by id) to ~/Desktop/EventStore/users/07_events.csv DELIMITER ',' CSV HEADER;
 \copy (select distinct songname, songhref from pandora_events where username ='muiqp07@hmamail.com') to ~/Desktop/EventStore/users/07_songs.csv DELIMITER ',' CSV HEADER;
 
