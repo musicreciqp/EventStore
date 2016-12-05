@@ -29,9 +29,7 @@ function getPandoraUrl(id) {
 var allowedPandoraEmails = ["testacc@mailinator.com"];
 for (var i = 0; i < 20; i++) allowedPandoraEmails.push(getStudyEmail(i));
 
-function postgresQuoteEscape(str) {
-	return str.replace(/'/g, "''");
-}
+function postgresQuoteEscape(str) { return str.replace(/'/g, "''"); }
 
 var session = require('express-session');
 app.use(session({secret: 'ssshhhhh'}));
@@ -40,7 +38,7 @@ app.use(session({secret: 'ssshhhhh'}));
 app.all('/*', function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
-	res.header("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
+  res.header("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
   next();
 });
 app.use(express.static(__dirname + '/public'));
@@ -51,12 +49,9 @@ app.set('view engine', 'ejs');
 
 var mySession;
 app.get('/', function(req, res) { 
-	mySession=req.session;
-	if (mySession.username) {
-		res.render('pages/index'); 	
-	} else {
-		res.redirect('/account');
-	}
+	mySession = req.session;
+	if (mySession.username) res.render('pages/index'); 
+	else res.redirect('/account');
 });
 
 app.post('/login', function(req, res) {
@@ -88,13 +83,8 @@ app.get('/logout', function(req, res) {
 		else res.redirect('/account');
 	})
 });
-
 app.listen(app.get('port'), function() { console.log('Node app is running on port', app.get('port')) });
-
-
-app.get('/account', function(req, res) {
-	res.render('pages/account');
-});
+app.get('/account', function(req, res) { res.render('pages/account'); });
 
 app.post('/pandora-event', function(request, res) {
 	var username = postgresQuoteEscape(request.body.username);
@@ -112,6 +102,25 @@ app.post('/pandora-event', function(request, res) {
 	// 			else {res.send("Pandora Event Added");}
 	// 		});
 	// });
+});
+
+app.post('/pandora/create', function(req, res) {
+	var username = req.body.username;
+	var event = 'Station Crete';
+	var stationName = req.body.stationName;
+	var stationId = req.body.stationId;
+	var daysAgo = Number(req.body.daysAgo);
+	var date = new Date();
+	date.setDate(date.getDate() - daysAgo);
+	var sql = "insert into pandora_events (event, username, stationId, stationName, songName, songHref, shuffleEnabled, date) values('";
+	sql += event +"', '" + username + "', '" + stationId + "', '" + stationName + "', '', '', 'false', '" + date.toISOString() + "')";
+	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+		client.query(sql, function(err, result) {
+			done();
+			if (err) res.send("Error " + err);
+			else res.send("Pandora Event Added");
+		});
+	});
 });
 
 app.post('/tunein-events', function(req, res) {
