@@ -391,6 +391,11 @@ app.get('/users/:id/tunein/discovery', function(req, res) {
 });
 
 app.get('/statistics/unique_tunein_stations', function(req, res) {
+	mySession = req.session;
+	if (!mySession.username) {
+		res.redirect('/account');
+		return;
+	}
 	var sql = "select userid, count(distinct href) from tunein_events where href<>'http://tunein.com/radio/local/' and href<>'https://beta.tunein.com/radio/local/' and userid < 100 group by userid;";
 	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
 		client.query(sql, function(err, result) {
