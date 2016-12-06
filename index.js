@@ -389,3 +389,23 @@ app.get('/users/:id/tunein/discovery', function(req, res) {
 		});
 	});
 });
+
+app.get('/statistics/unique_tunein_stations', function(req, res) {
+	var sql = "select userid, count(distinct href) from tunein_events where href<>'http://tunein.com/radio/local/' and href<>'https://beta.tunein.com/radio/local/' and userid < 100 group by userid;";
+	pg.connect(process.env.DATABASE_URL, function(err, result) {
+		done();
+		if (err) {
+			res.send(err);
+			return;
+		}
+		var avg = 0;
+		for (var i = 0; i < result.rows.length; i++) avg += result.rows[i].count;
+		avg /= result.rows.length;
+		res.render('pages/tunein_stations_stat', {
+			results: result.rows,
+			average: avg
+		});
+	});
+});
+
+
