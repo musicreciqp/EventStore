@@ -28,7 +28,7 @@
         <tbody>
           <% results.forEach(function(r) { %>
               <tr>
-                <td><a href="/users/<%=r.userid %>"><%= r.userid %></a></td>
+                <td><a href="/users/<%= r.userid %>"><%= r.userid %></a></td>
                 <td><%= r.count %></td>
               </tr>
           <% }); %
