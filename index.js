@@ -400,7 +400,7 @@ app.get('/statistics/unique_tunein_stations', function(req, res) {
 				return;
 			}
 			var avg = 0;
-			for (var i = 0; i < result.rows.length; i++) avg += result.rows[i].count;
+			for (var i = 0; i < result.rows.length; i++) avg += Number(result.rows[i].count);
 			avg /= result.rows.length;
 			res.render('pages/tunein_stations_stat', {
 				results: result.rows,
