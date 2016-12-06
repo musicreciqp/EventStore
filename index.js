@@ -112,8 +112,10 @@ app.post('/pandora/create', function(req, res) {
 	var daysAgo = Number(req.body.daysAgo);
 	var date = new Date();
 	date.setDate(date.getDate() - daysAgo);
+	console.log(username, event, stationName, stationId, daysAgo, date);
 	var sql = "insert into pandora_events (event, username, stationId, stationName, songName, songHref, shuffleEnabled, date) values('";
 	sql += event +"', '" + username + "', '" + stationId + "', '" + stationName + "', '', '', 'false', '" + date.toISOString() + "')";
+	console.log(sql);
 	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
 		client.query(sql, function(err, result) {
 			done();
