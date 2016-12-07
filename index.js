@@ -109,7 +109,7 @@ app.post('/pandora/create', function(req, res) {
 	var event = 'Station Create';
 	var stationName = postgresQuoteEscape(req.body.stationName);
 	var stationId = req.body.stationId;
-	var daysAgo = Number(req.body.daysAgo);
+	var daysAgo = Number(req.body.daysAgo) + 1; // for date sorting put create events behind other events
 	var date = new Date();
 	date.setDate(date.getDate() - daysAgo);
 	console.log(username, event, stationName, stationId, daysAgo, date);
