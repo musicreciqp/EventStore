@@ -415,4 +415,30 @@ app.get('/statistics/unique_tunein_stations', function(req, res) {
 	});
 });
 
-
+app.get('/statistics/unique_pandora_station_creates', function(req, res) {
+	mySession = req.session;
+	if (!mySession.username) {
+		res.redirect('/account');
+		return;
+	}
+	var sql = "select username, count(distinct stationId) from pandora_events where event = 'Station Create' group by username;";
+		pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+		client.query(sql, function(err, result) {
+			done();
+			if (err) {
+				res.send(err);
+				return;
+			}
+			var avg = 0;
+			for (var i = 0; i < result.rows.length; i++) avg += Number(result.rows[i].count);
+			avg /= result.rows.length;
+			res.render('pages/pandora_create_stat', {
+				results: result.rows.map(function(row) {
+					row.userid = row.username.subtring('muiqp').substring(0,2);
+					return row;
+				}),
+				average: avg
+			});
+		});
+	});
+});

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <% include ../partials/header.ejs %>
+  <title>Tunein Stations Per User</title>
+  <style>
+    table, h1,h2, th {text-align: center; }
+  </style>
+</head>
+<body>
+  <% include ../partials/nav.ejs %>
+<div class="jumbotron text-center">
+  <div class="container">
+    <h1>Average Stations Created: <%= average %></h1>
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+    <h2>User Breakdown</h2>
+    <div class="col-md-12">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>User</th>
+            <th>Station Create Count</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% results.forEach(function(r) { %>
+              <tr>
+                <td><a href="/users/<%= r.userid %>"><%= r.userid %></a></td>
+                <td><%= r.count %></td>
+              </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+  </div> <!-- row -->
+</div>
+</body>
+</html>
