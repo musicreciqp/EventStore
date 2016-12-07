@@ -434,7 +434,7 @@ app.get('/statistics/unique_pandora_station_creates', function(req, res) {
 			avg /= result.rows.length;
 			res.render('pages/pandora_create_stat', {
 				results: result.rows.map(function(row) {
-					row.userid = row.username.subtring('muiqp').substring(0,2);
+					row.userid = row.username.substring('muiqp').substring(0,2);
 					return row;
 				}),
 				average: avg
