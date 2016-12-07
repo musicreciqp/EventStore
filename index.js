@@ -107,7 +107,7 @@ app.post('/pandora-event', function(request, res) {
 app.post('/pandora/create', function(req, res) {
 	var username = req.body.username;
 	var event = 'Station Create';
-	var stationName = req.body.stationName;
+	var stationName = postgresQuoteEscape(req.body.stationName);
 	var stationId = req.body.stationId;
 	var daysAgo = Number(req.body.daysAgo);
 	var date = new Date();
